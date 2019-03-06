@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Problem4
 {
@@ -22,34 +18,36 @@ namespace Problem4
         {
             int numOfDigits = 0;
             int check = value;
-            bool rValue = true;
 
+            // Find out how many digits does the number have
             while (check >= 1)
             {
                 numOfDigits++;
                 check /= 10;
             }
             
+            // Create an array with the lenght of the digits
             int[] palArray = new int[numOfDigits];
 
             check = value;
           
+            // Add each digit to the newly created array
             for (int i = 0; i < palArray.Length; i++)
             {
                 palArray[i] = check % 10;
                 check /= 10;
             }
            
+            // Go through half of the array check each element going from the outside to the middle 
             for (int i = 0; i < (palArray.Length / 2); i++)
             {
                 if (palArray[i] != palArray[palArray.Length - i - 1])
                 {
-                    rValue = false;
-                    break;
+                    return false;
                 }
             } 
             
-            return rValue;
+            return true;
         }
 
         /* This function takes the given number of digits then generates the largest posible number given that digit.
@@ -62,28 +60,22 @@ namespace Problem4
         {
             int product = 0;
             int rValue = 0;
-            int num1 = (int)Math.Pow(10.0, (double)(numOfDigits)) - 1;
-            int num2 = num1;
+            int upperBound = (int)Math.Pow(10.0, numOfDigits) - 1;
+            int lowerBound = (int)Math.Pow(10.0, (double)numOfDigits - 1);
 
-            while (num1 >= 1 || num2 >= 1)
+            // Since we have to find the highest Palindrome, then we will have to check the entire combination
+            for (int i = upperBound; i >= lowerBound; i--)
             {
-                product = num1 * num2;
-                if ( IsPalindrome(product) )
+                for (int j = i; j >= lowerBound; j--)
                 {
-                    if (product > rValue)
+                    product = i * j;
+                    if (IsPalindrome(product))
                     {
-                        rValue = product;
+                        if (product > rValue)
+                        {
+                            rValue = product;
+                        }
                     }
-                }
-
-                if (num2 >= (int)Math.Pow(10.0, (double)numOfDigits - 1))
-                {
-                    num2--;
-                }
-                else
-                {
-                    num1--;
-                    num2 = num1;
                 }
             }
 
