@@ -14,4 +14,4 @@ def Sumof3n5(max):
     
     return sum
 
-print Sumof3n5(1000)
+print(Sumof3n5(1000))
